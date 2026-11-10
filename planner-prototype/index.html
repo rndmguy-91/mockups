@@ -351,7 +351,7 @@
 
   /* Filter panel */
   .fsheet { display: contents; }
-  .fbar, .fgrip, .fscrim { display: none; }
+  .fbar, .fgrip, .fscrim, .aiscrim, .aisheet { display: none; }
 
   .fsec { padding: 20px 0; border-top: 1px solid var(--line-2); }
   .fsec:first-of-type { border-top: 0; padding-top: 0; }
@@ -1122,32 +1122,72 @@
     #stage-choose .vhead { display: block; padding: 24px 20px 16px; }
     #stage-choose .vhead h1 { font-size: 26px; line-height: 1.15; }
     #stage-choose .grid { gap: 20px; padding: 4px 20px 20px; grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr)); }
-    /* filter bar: what is filtered and how many kitchens remain, at a glance; chips remove a single filter */
-    #side-choose .fbar { display: flex; flex-direction: column; justify-content: center; gap: 4px; height: 100%; padding: 0 8px; }
-    .fbar-top { display: none; align-items: center; justify-content: space-between; gap: 12px; height: 32px; padding: 0 8px 0 12px; }
-    .layout.filtered .fbar-top { display: flex; }
-    .fbar-sum { font-size: 13px; font-weight: 700; color: var(--ink); }
-    .fbar-sum small { font-weight: 500; color: var(--muted); }
-    .fbar-reset { display: inline-flex; align-items: center; gap: 4px; height: 32px; padding: 0 8px; border: 0; border-radius: var(--r-pill); background: none; color: var(--ink); font: inherit; font-size: 12px; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
-    .fbar-reset svg { width: 14px; height: 14px; }
-    .fbar-row { display: flex; align-items: center; gap: 8px; min-width: 0; }
-    .fbar-btn {
-      position: relative; flex: none; display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 20px 0 16px;
-      border: 0; border-radius: var(--r-pill); background: var(--ink); color: var(--on-ink); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+    /* menu bar like Ausstatten: KI-Assistent left, Filtern right, result count in between */
+    #side-choose .fbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 100%; padding: 0 8px; }
+    .fbar-item {
+      position: relative; flex: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+      min-width: 88px; height: 56px; padding: 4px 12px; border: 0; border-radius: var(--r-lg); background: var(--surface);
+      color: var(--ink); font: inherit; font-size: 12px; font-weight: 500; cursor: pointer; transition: background .2s, color .2s;
     }
-    .fbar-btn svg { width: 20px; height: 20px; }
-    .fbar-cnt { min-width: 20px; height: 20px; padding: 0 6px; border-radius: var(--r-pill); background: var(--accent); color: #fff; font-size: 11px; line-height: 20px; text-align: center; }
+    .fbar-item:hover { background: var(--panel); }
+    .fbar-item svg { width: 24px; height: 24px; }
+    .fbar-item.on { background: var(--ink); color: var(--on-ink); }
+    .fbar-cnt {
+      position: absolute; top: 4px; right: 20px; min-width: 20px; height: 20px; padding: 0 6px; border-radius: var(--r-pill);
+      background: var(--accent); color: #fff; font-size: 11px; font-weight: 700; line-height: 20px; text-align: center;
+    }
     .fbar-cnt:empty { display: none; }
-    .fbar-hint { flex: 1; min-width: 0; font-size: 12px; line-height: 1.3; color: var(--muted); }
-    .layout.filtered .fbar-hint { display: none; }
-    .fbar-chips { display: none; flex: 1; min-width: 0; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 4px 8px 4px 0; mask-image: linear-gradient(90deg, #000 85%, transparent); }
-    .fbar-chips::-webkit-scrollbar { display: none; }
-    .layout.filtered .fbar-chips { display: flex; }
-    .fbar-chip { flex: none; display: inline-flex; align-items: center; gap: 4px; height: 40px; padding: 0 8px 0 16px; border: 0; border-radius: var(--r-pill); background: var(--panel); color: var(--ink); font: inherit; font-size: 13px; font-weight: 600; white-space: nowrap; cursor: pointer; }
-    .fbar-chip i { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; font-style: normal; color: var(--muted); }
-    .fbar-chip:hover i { background: var(--panel-2); color: var(--ink); }
-    .fbar-chip i svg { width: 12px; height: 12px; }
-    .layout[data-ctx="choose"].filtered { grid-template-rows: minmax(0, 1fr) 104px; }
+    .fbar-sum { flex: 1; min-width: 0; text-align: center; font-size: 12px; font-weight: 500; color: var(--muted); }
+    .fbar-sum b { color: var(--ink); font-weight: 700; }
+    /* KI-Assistent sheet: same reach as the filter sheet */
+    #side-choose .aiscrim {
+      display: block; position: fixed; inset: 0; z-index: 29; background: rgba(20,16,12,.28);
+      opacity: 0; visibility: hidden; transition: opacity .3s, visibility 0s .3s;
+    }
+    #side-choose .aisheet {
+      display: flex; flex-direction: column; position: fixed; left: 0; right: 0; bottom: 0; top: var(--sheet-top, 72px); z-index: 30;
+      background: var(--surface); border-radius: var(--r-xl) var(--r-xl) 0 0; box-shadow: 0 -10px 40px rgba(0,0,0,.15);
+      transform: translateY(100%); visibility: hidden; transition: transform .45s var(--ease), visibility 0s .45s;
+    }
+    #side-choose.ai-open .aiscrim { opacity: 1; visibility: visible; transition: opacity .3s; }
+    #side-choose.ai-open .aisheet { transform: none; visibility: visible; transition: transform .45s var(--ease); }
+    .ai-head { flex: none; display: flex; align-items: center; gap: 12px; padding: 20px 16px 12px; }
+    .ai-head h2 { font-size: 18px; font-weight: 700; }
+    .ai-head p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .ai-x {
+      display: grid; place-items: center; flex: none; margin-left: auto; width: 32px; height: 32px; padding: 0; border: 0; border-radius: 50%;
+      background: var(--ink); color: var(--on-ink); box-shadow: 0 2px 8px rgba(0,0,0,.2);
+    }
+    .ai-x svg { width: 16px; height: 16px; }
+    .ai-body { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 4px 16px 24px; display: flex; flex-direction: column; gap: 16px; }
+    .ai-body textarea {
+      width: 100%; min-height: 120px; padding: 16px; border: 1px solid transparent; border-radius: var(--r-lg); background: var(--panel);
+      color: var(--ink); font: inherit; font-size: 15px; line-height: 1.45; resize: none; outline: none;
+    }
+    .ai-body textarea:focus { border-color: var(--ink); background: var(--surface); }
+    .ai-examples { display: flex; flex-wrap: wrap; gap: 8px; }
+    .ai-examples button { height: 40px; padding: 0 16px; border: 0; border-radius: var(--r-pill); background: var(--panel); color: var(--ink); font: inherit; font-size: 13px; font-weight: 500; cursor: pointer; }
+    .ai-label { font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+    .ai-err { font-size: 12px; font-weight: 600; color: var(--accent); }
+    .ai-err:empty { display: none; }
+    .ai-pic { position: relative; aspect-ratio: 4 / 3; border-radius: var(--r-lg); overflow: hidden; background: var(--surface-2); }
+    .ai-pic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .ai-pic .tagline { position: absolute; left: 12px; top: 12px; display: inline-flex; align-items: center; gap: 4px; height: 28px; padding: 0 12px; border-radius: var(--r-pill); background: color-mix(in srgb, var(--surface) 90%, transparent); font-size: 12px; font-weight: 600; }
+    .ai-pic.loading::after { content: ''; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, color-mix(in srgb, var(--surface) 60%, transparent) 50%, transparent 70%); background-size: 200% 100%; animation: aiShimmer 1.2s linear infinite; }
+    @keyframes aiShimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+    .ai-status { display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: var(--muted); }
+    .ai-status .done { color: var(--ok); font-weight: 600; }
+    .ai-result h3 { font-size: 18px; font-weight: 700; }
+    .ai-result p { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .ai-finishes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .ai-finishes .fin { display: flex; align-items: center; gap: 8px; font-size: 13px; min-width: 0; }
+    .ai-finishes .fin i { flex: none; width: 32px; height: 32px; border-radius: var(--r-xs); background: var(--img) center / cover no-repeat, var(--c); box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); }
+    .ai-finishes .fin i.h { background-size: 75%; background-color: #f4f2ee; }
+    .ai-finishes .fin span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .ai-finishes .fin small { display: block; font-size: 11px; color: var(--muted); }
+    .ai-actions { display: flex; flex-direction: column; gap: 8px; }
+    .ai-actions .btn { width: 100%; justify-content: center; }
+    .ai-note { font-size: 12px; color: var(--muted); text-align: center; }
     /* sheet: full viewport width, from just below the main bar down to the bottom edge */
     #side-choose .fscrim {
       display: block; position: fixed; inset: 0; z-index: 29; background: rgba(20,16,12,.28);
@@ -1396,17 +1436,20 @@
 
     <div class="view on" id="side-choose">
       <div class="fbar">
-        <div class="fbar-top">
-          <span class="fbar-sum" id="fbarSum" aria-live="polite"></span>
-          <button class="fbar-reset" id="fbarReset" type="button" data-reset><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Zurücksetzen</button>
-        </div>
-        <div class="fbar-row">
-          <button class="fbar-btn" id="filterOpen" aria-controls="filterSheet" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg><span>Filter</span><b class="fbar-cnt" id="filterCnt"></b></button>
-          <div class="fbar-chips" id="fbarChips" aria-label="Aktive Filter"></div>
-          <span class="fbar-hint" id="fbarHint">Form, Stil, Farbe, Griff, Breite, Budget</span>
-        </div>
+        <button class="fbar-item fbar-ai" id="chooseAi" type="button" aria-controls="aiSheet" aria-expanded="false"><svg viewBox="0 0 24 24"><defs><linearGradient id="aiGradChoose" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7c3aed"/><stop offset=".5" stop-color="#4f7cf0"/><stop offset="1" stop-color="#10b981"/></linearGradient></defs><g fill="url(#aiGradChoose)"><path d="M10 2.5l1.7 4.8 4.8 1.7-4.8 1.7L10 15.5l-1.7-4.8L3.5 9l4.8-1.7z"/><path d="M18 13l.9 2.6 2.6.9-2.6.9L18 20l-.9-2.6-2.6-.9 2.6-.9z"/></g></svg><span>KI-Assistent</span></button>
+        <span class="fbar-sum" id="fbarSum" aria-live="polite"></span>
+        <button class="fbar-item" id="filterOpen" type="button" aria-controls="filterSheet" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg><span>Filtern</span><b class="fbar-cnt" id="filterCnt"></b></button>
       </div>
       <div class="fscrim" id="filterScrim" aria-hidden="true"></div>
+      <div class="aiscrim" id="aiScrim" aria-hidden="true"></div>
+      <div class="aisheet" id="aiSheet" role="dialog" aria-label="KI-Assistent">
+        <div class="ai-head">
+          <span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 2.5l1.7 4.8 4.8 1.7-4.8 1.7L10 15.5l-1.7-4.8L3.5 9l4.8-1.7z"/><path d="M18 13l.9 2.6 2.6.9-2.6.9L18 20l-.9-2.6-2.6-.9 2.6-.9z"/></svg></span>
+          <div><h2>KI-Assistent</h2><p>Beschreib deine Traumküche – wir entwerfen sie für dich.</p></div>
+          <button class="sheet-x ai-x" id="aiClose" type="button" aria-label="KI-Assistent schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M7 7l10 10M17 7L7 17"/></svg></button>
+        </div>
+        <div class="ai-body" id="aiBody"></div>
+      </div>
       <div class="fsheet" id="filterSheet" role="dialog" aria-label="Küchen filtern">
       <div class="fgrip" id="filterGrip" aria-label="Filter schließen"><span></span></div>
       <div class="side-head">
@@ -2356,38 +2399,96 @@ function stepDetail(direction) {
 function syncSelectedTile() {
   $$('#kitchenGrid .tile').forEach((tile) => tile.classList.toggle('selected', tile.dataset.id === state.kitchenId));
 }
-// mobile filter bar: count, active filters as removable chips, reset
-const CHIP_X = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+// mobile menu bar: Filtern is black with its count while filters are active, the middle shows the result count
 function renderFilterBar(count, activeFilters) {
-  const filters = state.filters;
-  $('#layout').classList.toggle('filtered', activeFilters > 0);
-  $('#fbarSum').innerHTML = activeFilters
-    ? `${count} von ${KITCHENS.length} Küchen <small>· ${activeFilters} ${activeFilters === 1 ? 'Filter' : 'Filter'} aktiv</small>`
-    : '';
-  $('#fbarHint').textContent = `${KITCHENS.length} Küchen · filtern nach Form, Stil, Farbe, Griff, Breite und Budget`;
-  const chips = [];
-  if (filters.layout !== 'all') chips.push(['layout', LAYOUTS[filters.layout]]);
-  filters.styles.forEach((style) => chips.push([`style:${style}`, style]));
-  filters.families.forEach((family) => chips.push([`family:${family}`, FAMILIES[family][0]]));
-  filters.handles.forEach((handle) => chips.push([`handle:${handle}`, $(`#fHandle [data-handle="${handle}"]`)?.textContent.trim() || handle]));
-  if (filters.maxWidth < 540) chips.push(['width', `bis ${meters(filters.maxWidth)}`]);
-  if (filters.maxPrice < PRICE_MAX) chips.push(['price', `bis ${eur(filters.maxPrice)}`]);
-  $('#fbarChips').innerHTML = chips.map(([key, label]) =>
-    `<button class="fbar-chip" type="button" data-rm="${key}" aria-label="Filter ${label} entfernen">${label}<i aria-hidden="true">${CHIP_X}</i></button>`).join('');
+  $('#filterOpen').classList.toggle('on', activeFilters > 0);
+  $('#filterOpen').setAttribute('aria-label', activeFilters ? `Filtern, ${activeFilters} aktiv` : 'Filtern');
+  $('#fbarSum').innerHTML = activeFilters ? `<b>${count}</b> von ${KITCHENS.length} Küchen` : `<b>${KITCHENS.length}</b> Küchen`;
 }
-$('#fbarChips').addEventListener('click', (event) => {
-  const chip = event.target.closest('[data-rm]');
-  if (!chip) return;
-  const [kind, value] = chip.dataset.rm.split(':');
-  const filters = state.filters;
-  if (kind === 'layout') filters.layout = 'all';
-  if (kind === 'style') filters.styles.delete(value);
-  if (kind === 'family') filters.families.delete(value);
-  if (kind === 'handle') filters.handles.delete(value);
-  if (kind === 'width') { filters.maxWidth = 540; $('#fWidth').value = 540; }
-  if (kind === 'price') { filters.maxPrice = PRICE_MAX; $('#fBudget').value = PRICE_MAX; }
-  applyFilters();
+
+/* ── KI-Assistent: describe a kitchen → picture → our app builds a matching configuration → take it over ── */
+const AI_KITCHEN_EXAMPLES = ['Helle Inselküche mit Holz, skandinavisch', 'Dunkle Industrial-Küche mit Nussbaum', 'Gemütliche Landhausküche in L-Form'];
+const AI_LAYOUT_WORDS = [[/insel/, 'insel'], [/\bl[- ]?(form|küche)|über ?eck/, 'l'], [/\bu[- ]?(form|küche)/, 'u'], [/zeile|einzeilig|schmal/, 'zeile']];
+const AI_STYLE_WORDS = [[/modern|puristisch|clean/, 'Modern'], [/skandi|nordisch|scandi/, 'Skandinavisch'], [/landhaus|rustikal|country/, 'Landhaus'], [/industri|loft/, 'Industrial'], [/klassisch|zeitlos/, 'Klassisch']];
+let aiResult = null;
+function designFromText(text) {
+  const lower = text.toLowerCase();
+  const layout = AI_LAYOUT_WORDS.find(([pattern]) => pattern.test(lower))?.[1];
+  const style = AI_STYLE_WORDS.find(([pattern]) => pattern.test(lower))?.[1];
+  const theme = THEMES.map((entry) => ({ entry, hits: entry.keys.filter((key) => lower.includes(key)).length }))
+    .sort((a, b) => b.hits - a.hits).find((entry) => entry.hits > 0)?.entry || null;
+  const scored = KITCHENS.map((item) => ({
+    item,
+    score: (layout && item.layout === layout ? 3 : 0) + (style && item.style === style ? 2 : 0)
+      + (theme && theme.families?.includes(familyOf(item.f.frontcolor)) ? 1 : 0),
+  })).sort((a, b) => b.score - a.score);
+  const kitchenMatch = scored[0].item;
+  return { kitchen: kitchenMatch, theme, finishes: { ...kitchenMatch.f, ...(theme ? theme.picks : {}) }, layout, style };
+}
+function renderAiInput(text = '', error = '') {
+  aiResult = null;
+  $('#aiBody').innerHTML = `
+    <label class="ai-label" for="aiText">Deine Wunschküche</label>
+    <textarea id="aiText" placeholder="z. B. Helle Inselküche mit viel Holz, skandinavisch, mit Platz zum Frühstücken">${text}</textarea>
+    <p class="ai-err" id="aiErr">${error}</p>
+    <div class="ai-examples">${AI_KITCHEN_EXAMPLES.map((example) => `<button type="button" data-ai-example="${example}">${example}</button>`).join('')}</div>
+    <div class="ai-actions"><button class="btn btn-accent" type="button" data-ai-go>Küche entwerfen</button></div>
+    <p class="ai-note">Prototyp: Das Bild ist ein Beispielbild, die Ausführung stellt der Planer aus deiner Beschreibung zusammen.</p>`;
+}
+function runAiDesign() {
+  const text = $('#aiText').value.trim();
+  if (text.length < 8) { $('#aiErr').textContent = 'Beschreib deine Küche in ein paar Worten, z. B. Form, Stil und Farben.'; $('#aiText').focus(); return; }
+  const result = designFromText(text);
+  $('#aiBody').innerHTML = `
+    <div class="ai-pic loading"><span class="tagline">KI-Bild wird erstellt …</span></div>
+    <div class="ai-status" id="aiStatus"><span>Bild wird aus deiner Beschreibung erzeugt …</span></div>`;
+  setTimeout(() => {
+    if (!$('#side-choose').classList.contains('ai-open')) return;
+    $('#aiStatus').innerHTML = '<span class="done">✓ Bild erstellt</span><span>Ausführung wird aus unseren Fronten, Arbeitsplatten und Griffen zusammengestellt …</span>';
+  }, 1200);
+  setTimeout(() => { if ($('#side-choose').classList.contains('ai-open')) renderAiResult(text, result); }, 2400);
+}
+function renderAiResult(text, result) {
+  aiResult = { text, ...result };
+  const { kitchen: item, finishes, theme } = result;
+  const price = articles(item, finishes, false).reduce((sum, entry) => sum + entry.unit * entry.qty, 0);
+  $('#aiBody').innerHTML = `
+    <div class="ai-pic"><img src="${item.photo}" alt="KI-Bild zu deiner Beschreibung"><span class="tagline">✦ KI-Bild · Beispiel</span></div>
+    <div class="ai-result"><h3>${theme ? theme.name : item.style} als ${LAYOUTS[item.layout]}</h3>
+      <p>Aus deinem Bild zusammengestellt, Basis: Küche „${item.name}“ · ${meters(item.width)} · ab ${eur(Math.round(price / 100) * 100)}</p></div>
+    <div class="ai-finishes">${CATS.map((cat) => `<div class="fin"><i class="${cat === 'handle' ? 'h' : ''}" style="${finishStyle(cat, finishes[cat])}"></i><span><small>${CAT_LABEL[cat]}</small>${finishes[cat]}</span></div>`).join('')}</div>
+    <div class="ai-actions">
+      <button class="btn btn-accent" type="button" data-ai-take>Diese Ausführung übernehmen</button>
+      <button class="btn btn-ghost" type="button" data-ai-again>Beschreibung ändern</button>
+    </div>`;
+}
+function setAiSheet(isOpen) {
+  if (isOpen) {
+    setFilterSheet(false);
+    $('#side-choose').style.setProperty('--sheet-top', `${$('.top').getBoundingClientRect().bottom + 8}px`);
+    if (!aiResult) renderAiInput($('#aiText')?.value || '');
+  }
+  $('#side-choose').classList.toggle('ai-open', isOpen);
+  $('#chooseAi').setAttribute('aria-expanded', String(isOpen));
+}
+$('#chooseAi').addEventListener('click', () => setAiSheet(true));
+$('#aiClose').addEventListener('click', () => setAiSheet(false));
+$('#aiScrim').addEventListener('click', () => setAiSheet(false));
+$('#aiBody').addEventListener('click', (event) => {
+  const example = event.target.closest('[data-ai-example]');
+  if (example) { $('#aiText').value = example.dataset.aiExample; $('#aiErr').textContent = ''; }
+  if (event.target.closest('[data-ai-go]')) runAiDesign();
+  if (event.target.closest('[data-ai-again]')) renderAiInput(aiResult?.text || '');
+  if (event.target.closest('[data-ai-take]') && aiResult) {
+    const { kitchen: item, theme } = aiResult;
+    setAiSheet(false);
+    selectKitchen(item.id, { announce: true });
+    if (theme) applyTheme(theme);
+    aiResult = null;
+  }
 });
+$('#aiBody').addEventListener('input', (event) => { if (event.target.id === 'aiText') $('#aiErr').textContent = ''; });
+
 function resetFilters() {
   Object.assign(state.filters, { layout: 'all', styles: new Set(), families: new Set(), handles: new Set(), maxWidth: 540, maxPrice: PRICE_MAX });
   $('#fWidth').value = 540; $('#fBudget').value = PRICE_MAX;
@@ -3049,7 +3150,7 @@ function setFilterSheet(isOpen) {
   $('#side-choose').classList.toggle('filter-open', isOpen);
   $('#filterOpen').setAttribute('aria-expanded', String(isOpen));
 }
-$('#filterOpen').addEventListener('click', () => setFilterSheet(true));
+$('#filterOpen').addEventListener('click', () => { setAiSheet(false); setFilterSheet(true); });
 $('#filterScrim').addEventListener('click', () => setFilterSheet(false));
 $('#filterClose').addEventListener('click', () => setFilterSheet(false));
 attachPullToClose($('#filterSheet .scroll'), {
@@ -3527,6 +3628,7 @@ const ESCAPE_LAYERS = [
   { isOpen: () => $('.rail-more')?.classList.contains('open'), close: () => setToolMore(false) },
   { isOpen: () => Boolean(planSub), close: () => closePlanSub() },
   { isOpen: () => Boolean(state.sheetCat), close: () => closeSheet() },
+  { isOpen: () => $('#side-choose').classList.contains('ai-open'), close: () => setAiSheet(false) },
   { isOpen: () => $('#side-choose').classList.contains('filter-open'), close: () => setFilterSheet(false) },
 ];
 document.addEventListener('keydown', (event) => { if (event.key === 'Escape') { const layer = ESCAPE_LAYERS.find((entry) => entry.isOpen()); if (layer) { event.preventDefault(); layer.close(); } }
