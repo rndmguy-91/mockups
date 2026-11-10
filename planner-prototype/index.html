@@ -1122,18 +1122,32 @@
     #stage-choose .vhead { display: block; padding: 24px 20px 16px; }
     #stage-choose .vhead h1 { font-size: 26px; line-height: 1.15; }
     #stage-choose .grid { gap: 20px; padding: 4px 20px 20px; grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr)); }
-    #side-choose .fbar { display: flex; align-items: center; justify-content: center; gap: 12px; height: 100%; padding: 0 8px; }
+    /* filter bar: what is filtered and how many kitchens remain, at a glance; chips remove a single filter */
+    #side-choose .fbar { display: flex; flex-direction: column; justify-content: center; gap: 4px; height: 100%; padding: 0 8px; }
+    .fbar-top { display: none; align-items: center; justify-content: space-between; gap: 12px; height: 32px; padding: 0 8px 0 12px; }
+    .layout.filtered .fbar-top { display: flex; }
+    .fbar-sum { font-size: 13px; font-weight: 700; color: var(--ink); }
+    .fbar-sum small { font-weight: 500; color: var(--muted); }
+    .fbar-reset { display: inline-flex; align-items: center; gap: 4px; height: 32px; padding: 0 8px; border: 0; border-radius: var(--r-pill); background: none; color: var(--ink); font: inherit; font-size: 12px; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+    .fbar-reset svg { width: 14px; height: 14px; }
+    .fbar-row { display: flex; align-items: center; gap: 8px; min-width: 0; }
     .fbar-btn {
-      position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
-      min-width: 72px; height: 56px; padding: 4px 12px; border: 0; border-radius: var(--r-lg); background: none; font-size: 12px; font-weight: 600; color: var(--ink);
+      position: relative; flex: none; display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 20px 0 16px;
+      border: 0; border-radius: var(--r-pill); background: var(--ink); color: var(--on-ink); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
     }
-    .fbar-btn:hover, .fbar-btn[aria-expanded="true"] { background: var(--panel); }
-    .fbar-btn svg { width: 24px; height: 24px; }
-    .fbar-cnt {
-      position: absolute; top: 4px; right: 12px; min-width: 20px; padding: 1px 4px; border-radius: 999px;
-      background: var(--accent); color: #fff; font-size: 10px; line-height: 16px; text-align: center;
-    }
+    .fbar-btn svg { width: 20px; height: 20px; }
+    .fbar-cnt { min-width: 20px; height: 20px; padding: 0 6px; border-radius: var(--r-pill); background: var(--accent); color: #fff; font-size: 11px; line-height: 20px; text-align: center; }
     .fbar-cnt:empty { display: none; }
+    .fbar-hint { flex: 1; min-width: 0; font-size: 12px; line-height: 1.3; color: var(--muted); }
+    .layout.filtered .fbar-hint { display: none; }
+    .fbar-chips { display: none; flex: 1; min-width: 0; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 4px 8px 4px 0; mask-image: linear-gradient(90deg, #000 85%, transparent); }
+    .fbar-chips::-webkit-scrollbar { display: none; }
+    .layout.filtered .fbar-chips { display: flex; }
+    .fbar-chip { flex: none; display: inline-flex; align-items: center; gap: 4px; height: 40px; padding: 0 8px 0 16px; border: 0; border-radius: var(--r-pill); background: var(--panel); color: var(--ink); font: inherit; font-size: 13px; font-weight: 600; white-space: nowrap; cursor: pointer; }
+    .fbar-chip i { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; font-style: normal; color: var(--muted); }
+    .fbar-chip:hover i { background: var(--panel-2); color: var(--ink); }
+    .fbar-chip i svg { width: 12px; height: 12px; }
+    .layout[data-ctx="choose"].filtered { grid-template-rows: minmax(0, 1fr) 104px; }
     /* sheet: full viewport width, from just below the main bar down to the bottom edge */
     #side-choose .fscrim {
       display: block; position: fixed; inset: 0; z-index: 29; background: rgba(20,16,12,.28);
@@ -1382,7 +1396,15 @@
 
     <div class="view on" id="side-choose">
       <div class="fbar">
-        <button class="fbar-btn" id="filterOpen" aria-controls="filterSheet" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg><span>Filter</span><b class="fbar-cnt" id="filterCnt"></b></button>
+        <div class="fbar-top">
+          <span class="fbar-sum" id="fbarSum" aria-live="polite"></span>
+          <button class="fbar-reset" id="fbarReset" type="button" data-reset><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Zurücksetzen</button>
+        </div>
+        <div class="fbar-row">
+          <button class="fbar-btn" id="filterOpen" aria-controls="filterSheet" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg><span>Filter</span><b class="fbar-cnt" id="filterCnt"></b></button>
+          <div class="fbar-chips" id="fbarChips" aria-label="Aktive Filter"></div>
+          <span class="fbar-hint" id="fbarHint">Form, Stil, Farbe, Griff, Breite, Budget</span>
+        </div>
       </div>
       <div class="fscrim" id="filterScrim" aria-hidden="true"></div>
       <div class="fsheet" id="filterSheet" role="dialog" aria-label="Küchen filtern">
@@ -2236,6 +2258,7 @@ function applyFilters() {
   const activeFilters = (filters.layout !== 'all' ? 1 : 0) + filters.styles.size + filters.families.size + filters.handles.size
     + (filters.maxWidth < 540 ? 1 : 0) + (filters.maxPrice < PRICE_MAX ? 1 : 0);
   $('#filterCnt').textContent = activeFilters || '';
+  renderFilterBar(count, activeFilters);
   $$('#fLayout .chip').forEach((chip) => chip.classList.toggle('on', chip.dataset.layout === filters.layout));
   $$('#fStyle .chip').forEach((chip) => chip.classList.toggle('on', filters.styles.has(chip.dataset.style)));
   $$('#fFamily .dot').forEach((dot) => dot.classList.toggle('on', filters.families.has(dot.dataset.family)));
@@ -2333,6 +2356,38 @@ function stepDetail(direction) {
 function syncSelectedTile() {
   $$('#kitchenGrid .tile').forEach((tile) => tile.classList.toggle('selected', tile.dataset.id === state.kitchenId));
 }
+// mobile filter bar: count, active filters as removable chips, reset
+const CHIP_X = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+function renderFilterBar(count, activeFilters) {
+  const filters = state.filters;
+  $('#layout').classList.toggle('filtered', activeFilters > 0);
+  $('#fbarSum').innerHTML = activeFilters
+    ? `${count} von ${KITCHENS.length} Küchen <small>· ${activeFilters} ${activeFilters === 1 ? 'Filter' : 'Filter'} aktiv</small>`
+    : '';
+  $('#fbarHint').textContent = `${KITCHENS.length} Küchen · filtern nach Form, Stil, Farbe, Griff, Breite und Budget`;
+  const chips = [];
+  if (filters.layout !== 'all') chips.push(['layout', LAYOUTS[filters.layout]]);
+  filters.styles.forEach((style) => chips.push([`style:${style}`, style]));
+  filters.families.forEach((family) => chips.push([`family:${family}`, FAMILIES[family][0]]));
+  filters.handles.forEach((handle) => chips.push([`handle:${handle}`, $(`#fHandle [data-handle="${handle}"]`)?.textContent.trim() || handle]));
+  if (filters.maxWidth < 540) chips.push(['width', `bis ${meters(filters.maxWidth)}`]);
+  if (filters.maxPrice < PRICE_MAX) chips.push(['price', `bis ${eur(filters.maxPrice)}`]);
+  $('#fbarChips').innerHTML = chips.map(([key, label]) =>
+    `<button class="fbar-chip" type="button" data-rm="${key}" aria-label="Filter ${label} entfernen">${label}<i aria-hidden="true">${CHIP_X}</i></button>`).join('');
+}
+$('#fbarChips').addEventListener('click', (event) => {
+  const chip = event.target.closest('[data-rm]');
+  if (!chip) return;
+  const [kind, value] = chip.dataset.rm.split(':');
+  const filters = state.filters;
+  if (kind === 'layout') filters.layout = 'all';
+  if (kind === 'style') filters.styles.delete(value);
+  if (kind === 'family') filters.families.delete(value);
+  if (kind === 'handle') filters.handles.delete(value);
+  if (kind === 'width') { filters.maxWidth = 540; $('#fWidth').value = 540; }
+  if (kind === 'price') { filters.maxPrice = PRICE_MAX; $('#fBudget').value = PRICE_MAX; }
+  applyFilters();
+});
 function resetFilters() {
   Object.assign(state.filters, { layout: 'all', styles: new Set(), families: new Set(), handles: new Set(), maxWidth: 540, maxPrice: PRICE_MAX });
   $('#fWidth').value = 540; $('#fBudget').value = PRICE_MAX;
