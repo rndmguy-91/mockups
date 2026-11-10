@@ -55,6 +55,8 @@
   :root.dark .card .sw, :root.dark .opt .img { box-shadow: inset 0 0 0 1px rgba(255,255,255,.06); }
   :root.dark .card.handle .sw, :root.dark .opt.handle .img, :root.dark .o-thumb.h { background-color: #f4f2ee; }
   * { box-sizing: border-box; }
+  /* Safari (iPadOS) gives buttons its own look and inner spacing – icon buttons would sit off-centre */
+  button { -webkit-appearance: none; appearance: none; }
   /* floating theme bar (prototype tool): primary colour, app background, font – desktop only */
   .theme-bar { display: none; }
   @media (min-width: 1200px) and (hover: hover) and (pointer: fine) {
@@ -234,7 +236,7 @@
   .price-pill:has(#pillPrice[hidden]) #nextBtn { border-radius: 999px; }
   .price-pill b { border-radius: 999px 0 0 999px; }
   .price-pill:has(#nextBtn[hidden]) b, .price-pill:not(:has(#nextBtn)) b { border-radius: 999px; }
-  .icon-btn { width: 44px; height: 44px; border-radius: 50%; border: 0; background: transparent; display: grid; place-items: center; }
+  .icon-btn { width: 44px; height: 44px; padding: 0; border-radius: 50%; border: 0; background: transparent; display: grid; place-items: center; }
   .icon-btn:hover { background: rgba(0,0,0,.05); }
 
   /* ───────── Layout: content left, menu right ───────── */
@@ -286,6 +288,8 @@
   .grid {
     display: grid; grid-template-columns: repeat(auto-fill, minmax(min(400px, 100%), 1fr)); gap: 24px; padding: 4px 32px 32px;
   }
+  /* tablet landscape / small desktop: always two kitchens side by side (one column only on phones) */
+  @media (min-width: 901px) and (max-width: 1279px) { #stage-choose .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; padding-inline: 24px; } }
   .tile {
     border: 0; background: none; padding: 0; text-align: left; display: flex; flex-direction: column; gap: 12px;
     animation: rise .6s var(--ease) both;
@@ -398,7 +402,7 @@
   }
   .rail-sep { height: 1px; background: var(--line-2); margin: 4px 8px; }
   .tool {
-    position: relative; width: 40px; height: 40px; border: 0; border-radius: 50%; background: none; color: var(--ink);
+    position: relative; width: 40px; height: 40px; padding: 0; border: 0; border-radius: 50%; background: none; color: var(--ink);
     display: grid; place-items: center; transition: background .2s, color .2s, opacity .2s;
   }
   .tool svg { width: 20px; height: 20px; }
@@ -740,7 +744,7 @@
   .st-search svg { flex: none; width: 16px; height: 16px; color: var(--muted); }
   .st-search input { flex: 1; min-width: 0; border: 0; background: none; color: inherit; font: inherit; outline: none; }
   .st-cats { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; padding: 4px; border-radius: var(--r-lg); background: var(--surface); }
-  .st-cats button { height: 40px; border: 0; border-radius: var(--r-md); background: transparent; color: var(--muted); display: grid; place-items: center; cursor: pointer; }
+  .st-cats button { height: 40px; padding: 0; border: 0; border-radius: var(--r-md); background: transparent; color: var(--muted); display: grid; place-items: center; cursor: pointer; }
   .st-cats button:hover { background: var(--panel); color: var(--ink); }
   .st-cats button.on { background: var(--ink); color: var(--on-ink); }
   .st-cats svg { width: 20px; height: 20px; }
@@ -790,7 +794,7 @@
   .st-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; padding: 4px 4px 8px; }
   .st-head h2 { font-size: 18px; font-weight: 700; }
   .st-head p { font-size: 12px; color: var(--muted); margin-top: 2px; }
-  .st-x { flex: none; width: 32px; height: 32px; border: 0; border-radius: 50%; display: grid; place-items: center; background: var(--surface); color: var(--ink); cursor: pointer; }
+  .st-x { flex: none; width: 32px; height: 32px; padding: 0; border: 0; border-radius: 50%; display: grid; place-items: center; background: var(--surface); color: var(--ink); cursor: pointer; }
   .st-x svg { width: 14px; height: 14px; }
   .st-fields { display: grid; grid-template-columns: 16px 1fr 1fr; gap: 8px; align-items: center; font-size: 12px; }
   .st-fields .h { font-size: 11px; font-weight: 600; color: var(--muted); }
@@ -808,7 +812,7 @@
   .st-kv dt { color: var(--muted); }
   .st-kv dd { margin: 0; font-weight: 600; text-align: right; }
   .st-tools { display: flex; gap: 4px; justify-content: flex-end; }
-  .st-tools button { width: 36px; height: 36px; border: 0; border-radius: 50%; display: grid; place-items: center; background: var(--panel); color: var(--ink); cursor: pointer; }
+  .st-tools button { width: 36px; height: 36px; padding: 0; border: 0; border-radius: 50%; display: grid; place-items: center; background: var(--panel); color: var(--ink); cursor: pointer; }
   .st-tools button:hover { background: var(--panel-2); }
   .st-tools svg { width: 16px; height: 16px; }
   .st-checks { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px; font-size: 12px; }
@@ -2390,7 +2394,7 @@ function buildChoose() {
   $('#kitchenGrid').innerHTML = KITCHENS.map((item, index) => {
     return `<button class="tile" data-id="${item.id}" style="animation-delay:${index * 40}ms">
       <div class="tile-img">
-        <img src="${item.photo}" alt="Küche ${item.name}" loading="lazy">
+        <img src="${item.photo}" alt="Küche ${item.name}">
         ${item.tag ? `<span class="badge new tile-tag">${item.tag}</span>` : ''}
         <span class="tile-cta">Ansehen →</span>
       </div>
