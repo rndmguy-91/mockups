@@ -720,6 +720,105 @@
   .lead-done[hidden] { display: none; }
   .ok-badge { flex: none; width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: var(--ok); color: #fff; }
   .ok-badge svg { width: 24px; height: 24px; }
+  /* ───────── 5 · Studio: catalogue | 3D | properties (desktop first) ───────── */
+  .studio-left { display: none; }
+  .layout[data-ctx="studio"] { grid-template-columns: 320px minmax(0, 1fr) 360px; }
+  .layout[data-ctx="studio"] .studio-left {
+    display: flex; flex-direction: column; gap: 12px; min-height: 0; padding: 16px; border-radius: var(--r-xl); background: var(--panel);
+  }
+  .seg { flex: none; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; padding: 4px; border-radius: var(--r-pill); background: var(--panel-2); }
+  .seg button { height: 32px; border: 0; border-radius: var(--r-pill); background: transparent; color: var(--muted); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .seg button.on { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  .st-catalog { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 12px; }
+  .st-select select, .st-search {
+    width: 100%; height: 40px; border: 0; border-radius: var(--r-pill); background: var(--surface); color: var(--ink); font: inherit; font-size: 13px; font-weight: 600;
+  }
+  .st-select select { padding: 0 16px; appearance: none; cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237a766e' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 16px center; background-size: 12px; }
+  .st-search { display: flex; align-items: center; gap: 8px; padding: 0 16px; font-weight: 500; }
+  .st-search svg { flex: none; width: 16px; height: 16px; color: var(--muted); }
+  .st-search input { flex: 1; min-width: 0; border: 0; background: none; color: inherit; font: inherit; outline: none; }
+  .st-cats { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; padding: 4px; border-radius: var(--r-lg); background: var(--surface); }
+  .st-cats button { height: 40px; border: 0; border-radius: var(--r-md); background: transparent; color: var(--muted); display: grid; place-items: center; cursor: pointer; }
+  .st-cats button:hover { background: var(--panel); color: var(--ink); }
+  .st-cats button.on { background: var(--ink); color: var(--on-ink); }
+  .st-cats svg { width: 20px; height: 20px; }
+  .st-grid { flex: 1; min-height: 0; overflow-y: auto; display: grid; grid-template-columns: repeat(3, 1fr); align-content: start; gap: 8px; scrollbar-width: thin; }
+  .st-item { display: flex; flex-direction: column; gap: 4px; padding: 4px 4px 8px; border: 0; border-radius: var(--r-md); background: transparent; color: var(--ink); text-align: left; font: inherit; cursor: pointer; min-width: 0; }
+  .st-item:hover { background: var(--surface); }
+  .st-item.on { background: var(--surface); box-shadow: inset 0 0 0 2px var(--ink); }
+  .st-item .ph { aspect-ratio: 1; border-radius: var(--r-sm); background: var(--img) center / cover no-repeat, var(--c); display: grid; place-items: center; color: var(--muted); }
+  .st-item .ph.dev { background: var(--surface); }
+  .st-item .ph svg { width: 28px; height: 28px; }
+  .st-item b { font-size: 11px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 0 4px; }
+  .st-item small { font-size: 11px; color: var(--muted); padding: 0 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .st-planned { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
+  .st-planned[hidden] { display: none; }
+  .st-row { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 8px; border: 0; border-radius: var(--r-md); background: transparent; color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+  .st-row:hover { background: var(--surface); }
+  .st-row.on { background: var(--surface); box-shadow: inset 0 0 0 2px var(--ink); }
+  .st-row .ph { width: 40px; height: 40px; border-radius: var(--r-sm); background: var(--img) center / cover no-repeat, var(--c); display: grid; place-items: center; color: var(--muted); }
+  .st-row .ph.dev { background: var(--surface); }
+  .st-row .ph svg { width: 20px; height: 20px; }
+  .st-row b { display: block; font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .st-row small { font-size: 11px; color: var(--muted); }
+  .st-row .q { font-size: 12px; font-weight: 700; color: var(--muted); }
+  .st-acc { flex: none; padding: 12px 16px; border-radius: var(--r-lg); background: var(--surface); }
+  .st-acc h3 { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+  .st-acc p { font-size: 12px; color: var(--muted); }
+  .st-acc ul { list-style: none; display: flex; flex-direction: column; gap: 4px; font-size: 12px; }
+  .st-acc li { display: flex; justify-content: space-between; gap: 8px; }
+  /* centre: our 3D view, view switch at the bottom */
+  #stage-studio { align-items: stretch; }
+  .st-canvas { position: relative; flex: 1; min-height: 0; display: grid; place-items: center; padding: 24px; background: var(--surface); container-type: size; }
+  .st-canvas img { width: min(100cqw, 100cqh * 1690 / 1071); aspect-ratio: 1690 / 1071; user-select: none; }
+  .st-sel { position: absolute; left: 50%; top: 24px; translate: -50% 0; display: inline-flex; align-items: center; gap: 8px; height: 32px; padding: 0 16px; border-radius: var(--r-pill); background: var(--ink); color: var(--on-ink); font-size: 12px; font-weight: 600; }
+  .st-sel[hidden] { display: none; }
+  .st-views { position: absolute; left: 50%; bottom: 16px; translate: -50% 0; display: flex; gap: 4px; padding: 4px; border-radius: var(--r-pill); background: color-mix(in srgb, var(--surface) 90%, transparent); box-shadow: 0 2px 14px rgba(0,0,0,.07), inset 0 0 0 1px rgba(0,0,0,.04); }
+  .st-views button { height: 40px; padding: 0 16px; border: 0; border-radius: var(--r-pill); background: transparent; color: var(--ink); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .st-views button.on { background: var(--ink); color: var(--on-ink); }
+  /* right: scene or article properties */
+  #side-studio { overflow: hidden; }
+  .st-info { flex: 1; min-height: 0; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 8px; scrollbar-width: thin; }
+  .st-sec { border-radius: var(--r-lg); background: var(--surface); }
+  .st-sec > summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 12px 16px; font-size: 13px; font-weight: 700; cursor: pointer; }
+  .st-sec > summary::-webkit-details-marker { display: none; }
+  .st-sec > summary svg { width: 14px; height: 14px; transition: rotate .25s var(--ease); }
+  .st-sec[open] > summary svg { rotate: 180deg; }
+  .st-sec .in { padding: 0 16px 16px; display: flex; flex-direction: column; gap: 8px; }
+  .st-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; padding: 4px 4px 8px; }
+  .st-head h2 { font-size: 18px; font-weight: 700; }
+  .st-head p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .st-x { flex: none; width: 32px; height: 32px; border: 0; border-radius: 50%; display: grid; place-items: center; background: var(--surface); color: var(--ink); cursor: pointer; }
+  .st-x svg { width: 14px; height: 14px; }
+  .st-fields { display: grid; grid-template-columns: 16px 1fr 1fr; gap: 8px; align-items: center; font-size: 12px; }
+  .st-fields .h { font-size: 11px; font-weight: 600; color: var(--muted); }
+  .st-fields label { font-weight: 700; color: var(--muted); }
+  .st-num { width: 100%; height: 36px; padding: 0 12px; border: 1px solid transparent; border-radius: var(--r-sm); background: var(--panel); color: var(--ink); font: inherit; font-size: 13px; text-align: right; outline: none; }
+  .st-num:focus { border-color: var(--ink); background: var(--surface); }
+  .st-num[readonly] { color: var(--muted); }
+  .st-preview { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 12px; align-items: center; }
+  .st-preview .ph { width: 72px; height: 72px; border-radius: var(--r-md); background: var(--img) center / cover no-repeat, var(--c); display: grid; place-items: center; color: var(--muted); }
+  .st-preview .ph.dev { background: var(--panel); }
+  .st-preview .ph svg { width: 32px; height: 32px; }
+  .st-preview b { display: block; font-size: 13px; }
+  .st-preview small { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .st-kv { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 12px; }
+  .st-kv dt { color: var(--muted); }
+  .st-kv dd { margin: 0; font-weight: 600; text-align: right; }
+  .st-tools { display: flex; gap: 4px; justify-content: flex-end; }
+  .st-tools button { width: 36px; height: 36px; border: 0; border-radius: 50%; display: grid; place-items: center; background: var(--panel); color: var(--ink); cursor: pointer; }
+  .st-tools button:hover { background: var(--panel-2); }
+  .st-tools svg { width: 16px; height: 16px; }
+  .st-checks { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px; font-size: 12px; }
+  .st-checks label { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+  .st-checks input { width: 16px; height: 16px; margin: 0; accent-color: var(--ink); }
+  .st-text { width: 100%; min-height: 88px; padding: 12px; border: 1px solid transparent; border-radius: var(--r-sm); background: var(--panel); color: var(--ink); font: inherit; font-size: 12px; line-height: 1.5; resize: vertical; outline: none; }
+  .st-total { flex: none; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 16px; border-top: 1px solid var(--line-2); font-size: 13px; color: var(--muted); }
+  .st-total b { font-size: 20px; color: var(--ink); }
+  #side-studio { display: flex; flex-direction: column; }
+  @media (max-width: 900px) { #ctx button[data-ctx="studio"] { display: none; } }
   /* Übersicht: left = check the planning (kitchen, prices, articles), right = finish the request */
   .layout[data-ctx="summary"] {
     grid-template-columns: minmax(0, 1fr) clamp(380px, 36%, 480px);
@@ -1292,6 +1391,7 @@
     <button data-ctx="customize" title="Anpassen" aria-label="Anpassen"><span class="n"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.9 1.8-1.9 0-.5-.2-.9-.5-1.3-.3-.3-.5-.8-.5-1.3 0-1 .8-1.8 1.8-1.8H17a4 4 0 0 0 4-4C21 6.4 17 3 12 3z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7.5" r="1"/></svg></span><span class="txt">Anpassen<small class="sub">Schritt 2 von 4</small></span></button>
     <button data-ctx="plan" title="Ausstatten" aria-label="Ausstatten"><span class="n"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="2"/><path d="M3.5 10h17M3.5 15h17M10.5 7h3M10.5 12.5h3M10.5 17.5h3"/></svg></span><span class="txt">Ausstatten<small class="sub">Schritt 3 von 4</small></span></button>
     <button data-ctx="summary" title="Übersicht" aria-label="Übersicht"><span class="n"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg></span><span class="txt">Übersicht<small class="sub">Schritt 4 von 4</small></span></button>
+    <button data-ctx="studio" title="Studio" aria-label="Studio"><span class="n"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg></span><span class="txt">Studio<small class="sub">Profi-Ansicht</small></span></button>
   </nav>
   <div class="top-right">
     <div class="tools-box">
@@ -1319,7 +1419,36 @@
 <main class="layout" id="layout" data-ctx="choose">
 
   <!-- ═════════ LEFT: content ═════════ -->
+  <!-- Studio (context 5): article catalogue on the left -->
+  <aside class="studio-left" id="studioLeft" aria-label="Artikel">
+    <div class="seg" role="tablist">
+      <button class="on" role="tab" aria-selected="true" data-studio-tab="catalog">Katalog</button>
+      <button role="tab" aria-selected="false" data-studio-tab="planned">Geplante Elemente</button>
+    </div>
+    <div class="st-catalog" id="stCatalog">
+      <label class="st-select"><select id="stCatalogSel"><option>nobilia 2026</option><option>nobilia 2025</option></select></label>
+      <div class="st-cats" id="stCats" role="toolbar" aria-label="Kategorien"></div>
+      <label class="st-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="stSearch" placeholder="Artikel suchen …" autocomplete="off"></label>
+      <div class="st-grid" id="stGrid"></div>
+    </div>
+    <div class="st-planned" id="stPlanned" hidden></div>
+    <section class="st-acc">
+      <h3>Zubehör</h3>
+      <div id="stAcc"></div>
+    </section>
+  </aside>
+
   <section class="stage">
+
+    <div class="view" id="stage-studio">
+      <div class="st-canvas" id="stCanvas">
+        <img id="stSceneImg" alt="3D-Ansicht der Küche" draggable="false">
+        <div class="st-sel" id="stSel" hidden><span id="stSelLabel"></span></div>
+      </div>
+      <div class="st-views" role="tablist" aria-label="Ansicht">
+        <button data-st-view="plan">Grundriss</button><button data-st-view="wall">Wandansicht</button><button class="on" data-st-view="3d">3D</button>
+      </div>
+    </div>
 
     <div class="view on" id="stage-choose">
       <div class="vhead">
@@ -1575,6 +1704,10 @@
         </div>
         <div class="scroll pad" id="planList"></div>
       </div>
+    </div>
+
+    <div class="view" id="side-studio">
+      <div class="st-info" id="stInfo"></div>
     </div>
 
     <div class="view" id="side-summary">
@@ -2122,6 +2255,7 @@ const finishStyle = (cat, name) => { const option = opt(cat, name); return `--c:
 /* ───────── Context switching ───────── */
 const CTX_ORDER = ['choose', 'customize', 'plan', 'summary'];
 const STAGE_OF = { plan: 'customize' };
+const CTX_ALL = [...CTX_ORDER, 'studio']; // Studio is context 5: a desktop pro view outside the linear four steps
 // announce: the step pill pops – only for step changes triggered from content buttons, not from the header (Weiter, step menu)
 function setCtx(ctx, { announce = false } = {}) {
   setFilterSheet(false);
@@ -2130,12 +2264,12 @@ function setCtx(ctx, { announce = false } = {}) {
   const previousCtx = state.ctx;
   state.ctx = ctx;
   $('#layout').dataset.ctx = ctx;
-  CTX_ORDER.forEach((name) => $(`#side-${name}`).classList.toggle('on', name === ctx));
-  ['choose', 'customize', 'summary'].forEach((name) => $(`#stage-${name}`).classList.toggle('on', name === (STAGE_OF[ctx] || ctx)));
+  CTX_ALL.forEach((name) => $(`#side-${name}`).classList.toggle('on', name === ctx));
+  ['choose', 'customize', 'summary', 'studio'].forEach((name) => $(`#stage-${name}`).classList.toggle('on', name === (STAGE_OF[ctx] || ctx)));
   $$('#ctx button[data-ctx]').forEach((button) => {
     const index = CTX_ORDER.indexOf(button.dataset.ctx);
     button.classList.toggle('active', button.dataset.ctx === ctx);
-    button.classList.toggle('done', index < CTX_ORDER.indexOf(ctx));
+    button.classList.toggle('done', ctx !== 'studio' && index >= 0 && index < CTX_ORDER.indexOf(ctx));
   });
   moveIndicator();
   closeSheet();
@@ -2143,10 +2277,11 @@ function setCtx(ctx, { announce = false } = {}) {
   if (ctx === 'customize') { renderScene(); renderMoodboard(); }
   if (ctx === 'plan') { renderScene(); renderPlanMenu(); closePlanSub(); requestAnimationFrame(updatePlanScroll); }
   if (ctx === 'summary') renderSummary();
+  if (ctx === 'studio') renderStudio();
   if (ctx === 'choose') syncSelectedTile();
   updatePrices();
   // progress line: step 1 shows nothing, steps 2–4 fill a third each
-  const stepIndex = CTX_ORDER.indexOf(ctx);
+  const stepIndex = ctx === 'studio' ? CTX_ORDER.length - 1 : CTX_ORDER.indexOf(ctx);
   $('#ctxProg').style.setProperty('--progress', `${(stepIndex / (CTX_ORDER.length - 1)) * 100}%`);
   $('#ctxProg').classList.toggle('empty', stepIndex === 0);
   if (announce && previousCtx && previousCtx !== ctx && isMobileHeader()) {
@@ -2237,7 +2372,7 @@ function updatePrices() {
   // the button names where it leads; the last step sends the request
   const isLastStep = state.ctx === 'summary';
   const nextCtx = CTX_ORDER[CTX_ORDER.indexOf(state.ctx) + 1];
-  const nextLabel = isLastStep ? 'Unverbindlich anfragen' : NEXT_LABEL[nextCtx];
+  const nextLabel = isLastStep ? 'Unverbindlich anfragen' : state.ctx === 'studio' ? 'Zur Übersicht' : NEXT_LABEL[nextCtx];
   $('#nextBtn').classList.toggle('send', isLastStep);
   $('#nextBtn .lbl').textContent = nextLabel;
   $('#nextBtn').setAttribute('aria-label', isLastStep ? 'Unverbindlich beim Händler anfragen' : nextLabel);
@@ -2869,6 +3004,140 @@ function addExtra(index) {
 
 
 /* ───────── 4 · Übersicht ───────── */
+/* ───────── 5 · Studio ───────── */
+const STUDIO_CATS = [
+  { key: 'base', label: 'Unterschränke', groups: ['Unterschränke', 'Insel'] },
+  { key: 'wall', label: 'Hängeschränke', groups: ['Hängeschränke & Regale'] },
+  { key: 'tall', label: 'Hochschränke', groups: ['Hochschränke'] },
+  { key: 'devices', label: 'Geräte', groups: ['Elektrogeräte', 'Spülen & Zubehör'] },
+  { key: 'light', label: 'Licht & Gestaltung', groups: ['Beleuchtung', 'Arbeitsplatte', 'Sockel & Blenden', 'Griffe'] },
+  { key: 'extras', label: 'Dekoration', groups: ['Dekoration'] },
+];
+const studio = { tab: 'catalog', cat: 'base', query: '', selected: null };
+const studioCode = (name) => name.replace(/[^A-Za-zÄÖÜäöü0-9]/g, '').toUpperCase().slice(0, 4) + String([...name].reduce((sum, char) => sum + char.charCodeAt(0), 0) % 900 + 100);
+function studioCatalog() {
+  // catalogue = articles of the current kitchen plus everything the Ausstatten menu offers, deduplicated by name
+  const seen = new Map();
+  articles(kitchen(), state.f, false).forEach((item) => seen.set(item.name, { name: item.name, detail: item.detail, unit: item.unit, group: item.group, thumb: item.thumb }));
+  PLAN_MENU.forEach((entry) => entry.items.forEach(([name, detail, unit, group, thumb]) => { if (!seen.has(name)) seen.set(name, { name, detail, unit, group, thumb }); }));
+  return [...seen.values()].map((item) => ({ ...item, code: studioCode(item.name) }));
+}
+const studioThumb = (item, cls = 'ph') => (item.thumb === 'device'
+  ? `<div class="${cls} dev">${ICON.device}</div>`
+  : `<div class="${cls}" style="${finishStyle(item.thumb, state.f[item.thumb])}"></div>`);
+function renderStudio() {
+  $('#stSceneImg').src = SCENE_3D;
+  $('#stCats').innerHTML = STUDIO_CATS.map((cat) => `<button type="button" class="${studio.cat === cat.key ? 'on' : ''}" data-st-cat="${cat.key}" title="${cat.label}" aria-label="${cat.label}">${PLAN_ICONS[cat.key]}</button>`).join('');
+  const cat = STUDIO_CATS.find((entry) => entry.key === studio.cat);
+  const query = studio.query.toLowerCase();
+  const list = studioCatalog().filter((item) => (query ? `${item.name} ${item.code}`.toLowerCase().includes(query) : cat.groups.includes(item.group)));
+  $('#stGrid').innerHTML = list.map((item) => `<button type="button" class="st-item ${studio.selected?.name === item.name ? 'on' : ''}" data-st-pick="${item.name}">${studioThumb(item)}<b>${item.code}</b><small>${item.name}</small></button>`).join('')
+    || '<p class="st-empty" style="grid-column:1/-1;font-size:12px;color:var(--muted);padding:8px">Keine Artikel gefunden.</p>';
+  const planned = totals(kitchen(), state.f).items.filter((item) => item.qty);
+  $('#stPlanned').innerHTML = planned.map((item) => `<button type="button" class="st-row ${studio.selected?.name === item.name ? 'on' : ''}" data-st-pick="${item.name}">${studioThumb(item)}<span><b>${item.name}</b><small>${item.group}</small></span><span class="q">${item.qty} ×</span></button>`).join('');
+  $('#stCatalog').hidden = studio.tab !== 'catalog';
+  $('#stPlanned').hidden = studio.tab !== 'planned';
+  $$('#studioLeft [data-studio-tab]').forEach((tab) => { tab.classList.toggle('on', tab.dataset.studioTab === studio.tab); tab.setAttribute('aria-selected', String(tab.dataset.studioTab === studio.tab)); });
+  renderStudioInfo();
+}
+function studioDims(item) {
+  const numbers = (item.detail.match(/(\d+)\s*×\s*(\d+)\s*×\s*(\d+)/) || []).slice(1).map((value) => Number(value) * 10);
+  // article details read width × height × depth (cm); the panel shows B × T × H in mm
+  return numbers.length === 3 ? [numbers[0], numbers[2], numbers[1]] : [600, 580, 760];
+}
+function renderStudioInfo() {
+  const chevron = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
+  const current = kitchen();
+  const result = totals(current, state.f);
+  const item = studio.selected;
+  $('#stSel').hidden = !item;
+  if (item) $('#stSelLabel').textContent = `Ausgewählt: ${item.name}`;
+  const total = `<div class="st-total"><span>Kaufpreis</span><b>${eur(result.total)}</b></div>`;
+  if (!item) {
+    $('#stAcc').innerHTML = '<p>Wähle einen Artikel, um sein Zubehör zu sehen.</p>';
+    $('#stInfo').innerHTML = `
+      <div class="st-head"><div><h2>Szene</h2><p>Wähle links einen Artikel, um seine Eigenschaften zu sehen.</p></div></div>
+      <details class="st-sec" open><summary>Raum${chevron}</summary><div class="in"><dl class="st-kv">
+        <dt>Küche</dt><dd>${current.name}</dd><dt>Form</dt><dd>${LAYOUTS[current.layout]}</dd><dt>Breite</dt><dd>${meters(current.width)}</dd><dt>Wände</dt><dd>4</dd>
+      </dl></div></details>
+      <details class="st-sec" open><summary>Ausführung${chevron}</summary><div class="in"><dl class="st-kv">
+        ${CATS.map((cat) => `<dt>${CAT_LABEL[cat]}</dt><dd>${state.f[cat]}</dd>`).join('')}
+      </dl></div></details>
+      <details class="st-sec" open><summary>Elemente${chevron}</summary><div class="in"><dl class="st-kv">
+        <dt>Positionen</dt><dd>${result.items.filter((entry) => entry.qty).length}</dd><dt>Artikel</dt><dd>${result.items.reduce((sum, entry) => sum + entry.qty, 0)}</dd>
+      </dl></div></details>`;
+    $('#side-studio').querySelector('.st-total')?.remove();
+    $('#side-studio').insertAdjacentHTML('beforeend', total);
+    return;
+  }
+  const [width, depth, height] = studioDims(item);
+  const seed = [...item.name].reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  const num = (value, readonly = false) => `<input class="st-num" type="number" value="${value}" ${readonly ? 'readonly' : ''}>`;
+  const accessories = PLAN_MENU.find((entry) => entry.key === 'store').items.filter(([, , , group]) => group === 'Spülen & Zubehör');
+  $('#stAcc').innerHTML = accessories.length && item.group !== 'Dekoration'
+    ? `<ul>${accessories.map(([name, , price]) => `<li><span>${name}</span><span>${eur(price)}</span></li>`).join('')}</ul>`
+    : '<p>Keine Elemente vorhanden</p>';
+  $('#stInfo').innerHTML = `
+    <div class="st-head"><div><h2>${item.name}</h2><p>${item.code} · ${item.group}</p></div>
+      <button class="st-x" type="button" data-st-clear aria-label="Auswahl aufheben"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="seg"><button class="on" type="button">Global</button><button type="button">Lokal</button></div>
+    <details class="st-sec" open><summary>Position${chevron}</summary><div class="in"><div class="st-fields">
+      <span></span><span class="h">Koordinaten (mm)</span><span class="h">Rotation (°)</span>
+      <label>x</label>${num(1000 + seed % 2000)}${num(0, true)}
+      <label>y</label>${num(130)}${num(seed % 2 ? 270 : 0)}
+      <label>z</label>${num(500 + seed % 1500)}${num(0, true)}
+    </div></div></details>
+    <details class="st-sec" open><summary>Maße (B × T × H)${chevron}</summary><div class="in"><div class="st-fields">
+      <span></span><span class="h">Grafikmaße</span><span class="h">Bestellmaße</span>
+      <label>B</label>${num(width)}${num(width, true)}
+      <label>T</label>${num(depth)}${num(depth, true)}
+      <label>H</label>${num(height)}${num(height, true)}
+    </div></div></details>
+    <details class="st-sec" open><summary>Ausführung${chevron}</summary><div class="in">
+      <div class="st-preview">${studioThumb(item)}<div><b>${item.name}</b><small>${item.detail}</small></div></div>
+      <dl class="st-kv"><dt>Artikel</dt><dd>${item.code}</dd><dt>VKP</dt><dd>${eur(item.unit)}</dd>
+        ${item.thumb === 'frontcolor' ? `<dt>Front</dt><dd>${state.f.frontcolor}</dd>` : ''}</dl>
+      <div class="st-tools">
+        <button type="button" title="Info" aria-label="Info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></button>
+        <button type="button" title="Tauschen" aria-label="Tauschen">${ICON.swap}</button>
+        <button type="button" title="Bearbeiten" aria-label="Bearbeiten"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l4-1L19 8a2.1 2.1 0 0 0-3-3L5 16z"/></svg></button>
+      </div>
+    </div></details>
+    <details class="st-sec" open><summary>Eigenschaften${chevron}</summary><div class="in">
+      <div class="st-fields" style="grid-template-columns: 1fr 120px"><label style="color:var(--ink);font-weight:600">Sockelhöhe (mm)</label>${num(130)}</div>
+      <div class="st-checks">
+        <label><input type="checkbox" checked>Sockel</label><label><input type="checkbox" checked>Arbeitsplatte</label>
+        <label><input type="checkbox">Abdeckboden</label><label><input type="checkbox">Für Langteile ignorieren</label>
+        <label><input type="checkbox">Nur grafisch</label><label><input type="checkbox">Griff spiegeln</label>
+      </div>
+    </div></details>
+    <details class="st-sec"><summary>Beschreibung${chevron}</summary><div class="in">
+      <textarea class="st-text">${item.name.toUpperCase()}, ${item.detail}</textarea>
+    </div></details>`;
+  $('#side-studio').querySelector('.st-total')?.remove();
+  $('#side-studio').insertAdjacentHTML('beforeend', total);
+}
+$('#studioLeft').addEventListener('click', (event) => {
+  const tab = event.target.closest('[data-studio-tab]');
+  if (tab) { studio.tab = tab.dataset.studioTab; renderStudio(); return; }
+  const cat = event.target.closest('[data-st-cat]');
+  if (cat) { studio.cat = cat.dataset.stCat; studio.query = ''; $('#stSearch').value = ''; renderStudio(); return; }
+  const pick = event.target.closest('[data-st-pick]');
+  if (pick) {
+    const name = pick.dataset.stPick;
+    const item = studioCatalog().find((entry) => entry.name === name) || totals(kitchen(), state.f).items.find((entry) => entry.name === name);
+    studio.selected = studio.selected?.name === name ? null : { ...item, code: item.code || studioCode(item.name) };
+    renderStudio();
+  }
+});
+$('#stSearch').addEventListener('input', (event) => { studio.query = event.target.value.trim(); renderStudio(); });
+$('#side-studio').addEventListener('click', (event) => { if (event.target.closest('[data-st-clear]')) { studio.selected = null; renderStudio(); } });
+$('#stage-studio').addEventListener('click', (event) => {
+  const view = event.target.closest('[data-st-view]');
+  if (!view) return;
+  if (view.dataset.stView !== '3d') { showToast(`${view.textContent} ist im Prototyp noch nicht umgesetzt – nur die 3D-Ansicht`); return; }
+});
+
 function thumbHtml(item, cls) {
   if (item.thumb === 'device') return `<div class="${cls} dev">${ICON.device}`;
   return `<div class="${cls} ${item.thumb === 'handle' ? 'h' : ''}" style="${finishStyle(item.thumb, state.f[item.thumb])}">`;
@@ -2964,6 +3233,7 @@ $('#kitchenGrid').addEventListener('click', (event) => {
 $('#nextBtn').addEventListener('click', () => {
   if (state.ctx === 'choose') { const id = detailId || state.kitchenId; closeDetail(); selectKitchen(id); }
   else if (state.ctx === 'summary') sendRequest();
+  else if (state.ctx === 'studio') setCtx('summary');
   else setCtx(CTX_ORDER[CTX_ORDER.indexOf(state.ctx) + 1]);
 });
 /* dealer configuration (prototype: via URL, e.g. ?prices=0&articles=0) */
